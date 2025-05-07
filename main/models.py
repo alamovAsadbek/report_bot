@@ -10,7 +10,7 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True)
+    id = Column( Integer, primary_key=True, autoincrement=True)
     username = Column(String, nullable=True)
     full_name = Column(String, nullable=True)
     language = Column(String, nullable=True)
@@ -24,7 +24,7 @@ class User(Base):
 class Report(Base):
     __tablename__ = "reports"
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     telegram_id = Column(BigInteger, nullable=False)
     amount = Column(DECIMAL, nullable=False)
     description = Column(String, nullable=False)

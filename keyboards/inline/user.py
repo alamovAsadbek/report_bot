@@ -56,7 +56,7 @@ async def number_of_reports_kb(data):
                                 InlineKeyboardButton(
                                     text=f"{index + (page_index * 5) + 1}",
                                     # Add the page index to continue numbering
-                                    callback_data=f"report_page_{column.id}"
+                                    callback_data=f"report_page_{column['id']}"
                                 )
                                 for index, column in enumerate(chunk)  # Index will start at 0 for each chunk
                             ]

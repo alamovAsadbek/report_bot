@@ -37,7 +37,7 @@ async def choose_cost_filter_date(message: types.Message, state: FSMContext):
     elif user_text == _("Oxirgi 1 haftalik hisobot 📊"):
         filter_date = datetime.now().utcnow() - timedelta(days=7)
     elif user_text == _("Oxirgi 1 kunlik hisobot 📊"):
-        filter_date = datetime.now().utcnow() - timedelta(minutes=1)
+        filter_date = datetime.now().utcnow() - timedelta(days=1)
     await state.update_data(filter_date=filter_date)
     all_costs: any or list = await get_user_income_and_expense_reports(chat_id=message.chat.id,
                                                                        report_type=ReportType.expense.value,

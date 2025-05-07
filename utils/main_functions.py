@@ -11,8 +11,14 @@ def change_utc_to_local(utc_time):
 
 
 def change_amount_to_number(amount_to_number):
-    report_summ = "{:,}".format(amount_to_number).replace(",", " ")
+    # Agar son float bo'lsa, oxirgi nol va nuqtani olib tashlash
+    if isinstance(amount_to_number, float):
+        amount_to_number = str(amount_to_number).rstrip('0').rstrip('.')  # Oxirgi 0 larni olib tashlash
+
+    # Sonni formatlash va vergulni bo'sh joy bilan almashtirish
+    report_summ = "{:,.0f}".format(float(amount_to_number)).replace(",", " ")
     return report_summ
+
 
 
 def change_amount_to_string(amount_to_number):
@@ -30,6 +36,7 @@ def create_report(data):
         report_text += f"{index + 1}. {str(new_amount)} so'm, {report['description']}, {created_at}" + "\n \n"
         report_summ += report['amount']
     report_summ = change_amount_to_number(report_summ)
+    print('summ: ', report_summ * 1)
     report_text += f"✅ Umumiy hisob: {report_summ} so'm"
 
     return_data = {
@@ -53,6 +60,7 @@ def create_global_report(data):
             report_text += f"{index + 1}. Xarajat, {str(new_amount)} so'm, {report['description']}, {created_at}" + "\n \n"
             report_summ -= report['amount']
     report_summ = change_amount_to_number(report_summ)
+    print("global report summ:", report_summ)
     report_text += f"✅ Umumiy hisob: {report_summ} so'm"
     return_data = {
         "report_text": report_text,

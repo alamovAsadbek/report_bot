@@ -2,12 +2,14 @@ import databases
 import sqlalchemy
 from sqlalchemy import create_engine
 
-from main.config import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
+# SQLite URL - data will be stored in a file named sqlite.db
+DATABASE_URL = "sqlite:///sqlite.db"
 
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
+# Create database connection
 database = databases.Database(DATABASE_URL)
 
+# Create metadata instance
 metadata = sqlalchemy.MetaData()
 
-engine = create_engine(DATABASE_URL)
+# Create engine instance
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})

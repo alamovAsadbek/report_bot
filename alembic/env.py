@@ -9,14 +9,8 @@ from main.database import metadata
 # Load .env
 load_dotenv()
 
-# Postgres URL from .env
-DB_USER = os.getenv("DB_USER")
-DB_PASS = os.getenv("DB_PASS")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
-
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+# SQLite URL
+DATABASE_URL = "sqlite:///sqlite.db"
 
 # Alembic config
 config = context.config
@@ -41,8 +35,10 @@ def run_migrations_offline():
 
 
 def run_migrations_online():
+    configuration = config.get_section(config.config_ini_section)
+    configuration["sqlalchemy.url"] = DATABASE_URL
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
+        configuration,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )

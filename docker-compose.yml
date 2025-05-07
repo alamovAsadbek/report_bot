@@ -4,17 +4,15 @@ services:
   bot:
     build: .
     env_file: .env
-    depends_on:
-      - db
     command: >
       sh -c "
-        until alembic stamp head && alembic revision --autogenerate && 
-              alembic upgrade head; do
-          echo 'Waiting for database...';
-          sleep 2;
-        done &&
+        alembic stamp head && 
+        alembic revision --autogenerate && 
+        alembic upgrade head &&
         pybabel compile -d locale -D lang &&
         python app.py"
+    volumes:
+      - ./sqlite.db:/app/sqlite.db
     restart: always
 
   db:

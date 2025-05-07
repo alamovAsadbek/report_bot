@@ -1,28 +1,31 @@
+import os
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
-
-import os
 from dotenv import load_dotenv
-from main.database import metadata
 
-# Load .env
+# env.py
+from main.models import Base
+
+# .env fayldan o'zgaruvchilarni yuklash
 load_dotenv()
 
-# SQLite URL
-DATABASE_URL = "sqlite:///sqlite.db"
+# DATABASE URL (yoki sizning .env faylingizdan olingan URL)
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///sqlite.db")  # Agar .env faylida bo'lmasa, SQLite default bo'ladi
 
 # Alembic config
 config = context.config
 config.set_main_option("sqlalchemy.url", DATABASE_URL)
 
-# Logging
+# Loglar
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-target_metadata = metadata
+# Model metadatasini ulash
+target_metadata = Base.metadata
 
 
+# OFFLINE migrations
 def run_migrations_offline():
     context.configure(
         url=DATABASE_URL,
@@ -34,6 +37,7 @@ def run_migrations_offline():
         context.run_migrations()
 
 
+# ONLINE migrations
 def run_migrations_online():
     configuration = config.get_section(config.config_ini_section)
     configuration["sqlalchemy.url"] = DATABASE_URL
@@ -51,6 +55,7 @@ def run_migrations_online():
             context.run_migrations()
 
 
+# Run migrations
 if context.is_offline_mode():
     run_migrations_offline()
 else:

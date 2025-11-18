@@ -1,8 +1,8 @@
-pybabel extract . -o locale/lang.pot
-pybabel init -i locale/lang.pot -d locale -D lang -l uz
-pybabel compile -d locale -D lang
+pybabel extract . -o locales/lang.pot
+pybabel init -i locales/lang.pot -d locales -D lang -l uz
+pybabel compile -d locales -D lang
 
 ————————————————————
-pybabel extract . -o locale/lang.pot
-pybabel update -d locale -D lang -i locale/lang.pot
-pybabel update -d locale -D lang -i locale/lang.pot
+pybabel extract . -o locales/lang.pot
+pybabel update -d locales -D lang -i locales/lang.pot
+pybabel update -d locales -D lang -i locales/lang.pot

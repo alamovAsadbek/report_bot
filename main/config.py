@@ -14,4 +14,4 @@ DB_PORT = env.str("DB_PORT")
 DB_NAME = env.str("DB_NAME")
 
 I18N_DOMAIN = 'lang'
-LOCALES_DIR = 'locale'
+LOCALES_DIR = 'locales'

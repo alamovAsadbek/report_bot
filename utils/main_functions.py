@@ -2,12 +2,21 @@ from datetime import datetime
 from main.constants import ReportType
 import pytz
 
+from utils.more_functions import change_date_format
+
+
+from datetime import datetime
+import pytz
 
 def change_utc_to_local(utc_time):
-    utc_datetime = datetime.fromisoformat(utc_time)
+    utc_datetime = datetime.fromisoformat(utc_time).replace(tzinfo=pytz.UTC)
+
     tashkent_tz = pytz.timezone('Asia/Tashkent')
+
     tashkent_time = utc_datetime.astimezone(tashkent_tz)
+
     return tashkent_time.strftime("%Y-%m-%d %H:%M:%S")
+
 
 
 def change_amount_to_number(amount_to_number):
@@ -18,7 +27,6 @@ def change_amount_to_number(amount_to_number):
     # Sonni formatlash va vergulni bo'sh joy bilan almashtirish
     report_summ = "{:,.0f}".format(float(amount_to_number)).replace(",", " ")
     return report_summ
-
 
 
 def change_amount_to_string(amount_to_number):
@@ -33,7 +41,7 @@ def create_report(data):
     for index, report in enumerate(data):
         new_amount = f"{int(report['amount']):,}".replace(",", " ")
         created_at = change_utc_to_local(str(report['created_at']))
-        report_text += f"{index + 1}. {str(new_amount)} so'm, {report['description']}, {created_at}" + "\n \n"
+        report_text += f"{index + 1}. {str(new_amount)} so'm, {report['description']}, {change_date_format(created_at)}" + "\n \n"
         report_summ += report['amount']
     report_summ = change_amount_to_number(report_summ)
     print('summ: ', report_summ * 1)
@@ -55,9 +63,9 @@ def create_global_report(data):
         created_at = change_utc_to_local(str(report['created_at']))
         if report['type'] == ReportType.income.value:
             report_summ += report['amount']
-            report_text += f"{index + 1}. Daromad, {str(new_amount)} so'm, {report['description']}, {created_at}" + "\n \n"
+            report_text += f"{index + 1}. Daromad, {str(new_amount)} so'm, {report['description']}, {change_date_format(created_at)}" + "\n \n"
         elif report['type'] == ReportType.expense.value:
-            report_text += f"{index + 1}. Xarajat, {str(new_amount)} so'm, {report['description']}, {created_at}" + "\n \n"
+            report_text += f"{index + 1}. Xarajat, {str(new_amount)} so'm, {report['description']}, {change_date_format(created_at)}" + "\n \n"
             report_summ -= report['amount']
     report_summ = change_amount_to_number(report_summ)
     print("global report summ:", report_summ)

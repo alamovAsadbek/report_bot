@@ -31,7 +31,7 @@ async def add_user(message: types.Message, data: dict) -> Union[int, None]:
             status=UserStatus.active,
             created_at=message.date,
             updated_at=message.date
-        ).returning(User.id)
+        )
         new_user_id = await database.execute(query)
         return new_user_id
     except Exception as e:

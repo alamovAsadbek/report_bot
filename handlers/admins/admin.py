@@ -7,6 +7,8 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 
 from sqlalchemy import select
+
+from keyboards.default.user import user_main_menu_keyboard
 from main.config import ADMINS
 from main.database import database
 from main.models import User  # ❗ to'g'ri import
@@ -105,10 +107,12 @@ async def final_approval(message: Message, state: FSMContext, bot: Bot):
         f"📬 Yuborildi: {sent}\n"
         f"🚫 Bloklaganlar: {blocked}\n"
         f"❌ Boshqa xatoliklar: {failed}\n\n"
-        f"⏱ Yuborish vaqti: {round(elapsed_time, 2)} soniya"
+        f"⏱ Yuborish vaqti: {round(elapsed_time, 2)} soniya",
+        reply_markup=await user_main_menu_keyboard()
     )
 
     await state.clear()
+    return None
 
 @router.message(Command("users"))
 async def list_users(message: Message):

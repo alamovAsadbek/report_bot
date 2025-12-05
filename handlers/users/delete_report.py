@@ -100,6 +100,6 @@ async def back_to_main_menu(callback_query: CallbackQuery, state: FSMContext):
     """
     await callback_query.answer()
     await callback_query.message.answer(
-        "Orqaga qaytildi. 🔙", reply_markup=await user_main_menu_keyboard('uz')
+        "Orqaga qaytildi. 🔙", reply_markup=await user_main_menu_keyboard()
     )
     await state.clear()

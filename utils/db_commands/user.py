@@ -49,9 +49,11 @@ async def add_income_and_expense_reports(message: types.Message, data: dict) -> 
             status=data.get("status"),
             created_at=message.date,
             updated_at=message.date
-        ).returning(Report.id)
-        new_income = await database.execute(query)
-        return new_income
+        )
+
+        new_income_id = await database.execute(query)
+
+        return new_income_id
     except Exception as e:
         logger.error(f"Error adding income report for user {message.chat.id}: {e}")
         return None

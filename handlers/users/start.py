@@ -21,7 +21,7 @@ async def start_handler(message: types.Message, state: FSMContext):
 
     user = await get_user(chat_id=message.chat.id)
     if user:
-        text = "Assalom Aleykum Hisobotchi Botga Xush Kelibsiz 😊"
+        text = f"Assalom Aleykum {user['full_name']} Botga Xush Kelibsiz 😊"
         await message.answer(text=text, reply_markup=await user_main_menu_keyboard_with_lang('uz'))
     else:
         text = _("Ism familiyangizni kiriting 👇", locale='uz')
